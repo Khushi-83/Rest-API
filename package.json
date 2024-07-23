@@ -4,7 +4,7 @@
   "description": "demo server",
   "main": "index.js",
   "scripts": {
-    "start": "npm node.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
