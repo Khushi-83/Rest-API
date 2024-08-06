@@ -1,9 +1,11 @@
 const express = require ("express");
 const app = express();
+const fs = require("fs");
 const users = require ("./MOCK_DATA.json");
 const PORT = 8000;
 
-app.use(express.urlencoded({extented: false}));
+app.use(express.urlencoded({extended: false}));
+
 app.get("/users", (req, res) =>{
     const html = `
     <ul>
@@ -25,8 +27,16 @@ app.get("/api/users/:id", (req, res) => {
 
 app.post("/api/users", (req, res) =>{
     const body = req.body;
-    console.log("Body", body);
-    return res.json(users);
+    users.push({...body, id:users.length + 1});
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+        return res.json({ststus: "success", id: users.length });
+    });
+});
+
+app.patch("/api/users", (req, res) =>{
+    const id = body.id;
+    const user = users.find(user => user.id === id);
+    return req.json(user);
 });
   
 app.listen(PORT, () => console.log(`Server started at port ($PORT)`));
